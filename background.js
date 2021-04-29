@@ -32,6 +32,31 @@ async function getCurrentTab() {
 }
 
 /**
+ * receive message from content scripts
+ */
+chrome.runtime.onMessage.addListener(
+  (request, sender, sendResponse) => {
+    if (request.type === constants.TYPES.STARTED) {
+      chrome.storage.sync.get("email", ({ email }) => {
+        postData({ email, type: constants.TYPES.STARTED })
+          .then(data => {
+            console.log(data);
+            sendResponse({ done: "posted" });
+          });
+      });
+    } else if (request.type === constants.TYPES.COMPLETED) {
+      chrome.storage.sync.get("email", ({ email }) => {
+        postData({ email, type: constants.TYPES.COMPLETED })
+          .then(data => {
+            console.log(data);
+            sendResponse({ done: "posted" });
+          });
+      });
+    }
+  }
+);
+
+/**
  * When chrome window is unfocused
  */
 chrome.windows.onFocusChanged.addListener(async function(window) {

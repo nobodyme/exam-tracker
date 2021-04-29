@@ -1,15 +1,29 @@
+const TYPES = {
+  STARTED: 'started',
+  COMPLETED: 'completed'
+}
+
 function getElementByXpath(path) {
   return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
 
 function finished() {
   console.log('finished');
-  chrome.storage.sync.set({ email: undefined });
+  chrome.runtime.sendMessage({ type: TYPES.COMPLETED }, (response) => {
+    console.log(response);
+    /**
+     * remove email once test has finished
+     */
+    chrome.storage.sync.remove('email');
+  });
 }
 
 function getEmail(email) {
   console.log('email', email);
   chrome.storage.sync.set({ email });
+  chrome.runtime.sendMessage({ type: TYPES.STARTED }, (response) => {
+    console.log(response);
+  });
 }
 
 const bodyObserver = new MutationObserver(() => {
