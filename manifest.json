@@ -3,7 +3,22 @@
   "description": "A chrome extension to collect data to identify if there's any malpractice during an examination",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["tabs", "background"],
+  "permissions": [
+    "tabs",
+    "background",
+    "storage",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "https://oacbghzia2.execute-api.us-east-1.amazonaws.com/dev/v1/log/"
+  ],
+  "content_scripts": [
+    {
+        "matches": ["https://www.classmarker.com/*"],
+        "js": ["content.js"],
+        "run_at": "document_end"
+    }
+  ],
   "background": {
     "service_worker": "background.js"
   },
