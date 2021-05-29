@@ -2,6 +2,7 @@ const constants = {
   URL: {
     EXAM: 'https://www.classmarker.com/',
     NEW_TAB: 'chrome://newtab/',
+    // inactive
     API: 'https://oacbghzia2.execute-api.us-east-1.amazonaws.com/dev/v1/log'
   },
   TYPES: {
